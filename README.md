@@ -39,10 +39,22 @@ cp .env.example .env   # wpisz token, AGENT_TOKEN, liste AGENTS
 python3 main.py
 ```
 
-## Agent na VPS
+## Agent na VPS (autoinstalator)
 
-Zobacz [agent/README.md](agent/README.md). W skrocie: ten sam AGENT_TOKEN,
-`python3 -m agent.server`, port 8787.
+Jedna komenda na kazdym VPS (jako root):
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/deloskiytbackup/ep-ddos/main/scripts/install-agent.sh \
+  | sudo bash -s -- --token TWOJ_AGENT_TOKEN --name vps1 --firewall
+```
+
+Skrypt sam: instaluje zaleznosci, tworzy uzytkownika systemowego, klonuje repo,
+buduje venv, pisze unit systemd z hardeningiem, otwiera port i wypisuje linijke
+do wklejenia w `AGENTS`.
+
+Opcje: `--name`, `--port`, `--firewall`, `--uninstall`.
+
+Recznie: [agent/README.md](agent/README.md).
 
 Format `AGENTS`: `nazwa|url|waga`, oddzielone `;`. Waga = udzial w ruchu.
 
